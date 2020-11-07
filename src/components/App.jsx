@@ -11,6 +11,7 @@ export default function App() {
   const [accountBalance, setAccountBalance] = useState("");
   const [networkId, setNetworkId] = useState(0);
   const [metamaskChange, setMetaMaskChange] = useState(true);
+  const [refresh, setRefresh] = useState(true);
 
   // ! make a separate file
   const getWeb3 = () => {
@@ -47,7 +48,7 @@ export default function App() {
       setAccountBalance(accountBalance);
     }
     init();
-  }, [metamaskChange])
+  }, [metamaskChange, refresh])
 
   useEffect(() => {
       window.ethereum.on("accountsChanged", () => {
@@ -71,6 +72,8 @@ export default function App() {
         <AddFlight
           web3={web3}
           account={account}
+          refresh={refresh}
+          setRefresh={setRefresh}
         />
       </div>
     </div>
