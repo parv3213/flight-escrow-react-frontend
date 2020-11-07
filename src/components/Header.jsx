@@ -6,11 +6,12 @@ export default function Header(props) {
     
     useEffect(() => {
         const findNetworkName = () => {
-            console.log(props.networkId);
             if (props.networkId === 42){
                 setNetworkName("Kovan")
             } else if (props.networkId === 1){
                 setNetworkName("Mainnet")
+            } else if (props.networkId === 5777){
+                setNetworkName("Local Test")
             }
         }
         findNetworkName();
@@ -26,7 +27,7 @@ export default function Header(props) {
                     <span className="ml-3">{props.account.slice(0, 6) + "..." + props.account.slice(-4)}</span>
                 </div>
             </nav>
-            <hr className="my-0"/>
+            <hr className="mt-0 mb-5"/>
         </div>
     )
 }
