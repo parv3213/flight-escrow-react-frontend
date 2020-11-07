@@ -20,7 +20,7 @@ export default function Header(props) {
         <div>
             <nav className="navbar navbar-expand-lg my-3">
                 <img src={logo} alt="Airplane" style={{"width": "25px", "heigh": "25px"}}/>
-                <a href="#" className="navbar-brand mr-auto ml-2">Flight Escrow</a>
+                <a href="/" className="navbar-brand mr-auto ml-2">Flight Escrow</a>
                 <div className="ml-auto">
                     <span className="mx-3">{networkName}</span>
                     <span className="mx-3">{props.accountBalance} ETH</span>
