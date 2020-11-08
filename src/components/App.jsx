@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "./Header.jsx";
 import AddFlight from "./AddFlight.jsx";
-import AvailableFlight from "./AvailableFLight.jsx";
+import AvailableFlight from "./AvailableFlight.jsx";
 import Web3 from "web3";
 
 const { REACT_APP_NETWORK_ID } = process.env;
@@ -53,11 +53,11 @@ export default function App() {
 
   useEffect(() => {
       window.ethereum.on("accountsChanged", () => {
-        console.log("Account changed");
+        console.warn("Account changed");
         setMetaMaskChange(m => !m)
       })
       window.ethereum.on("networkChanged", () => {
-        console.log("Network changed");
+        console.warn("Network changed");
         setMetaMaskChange(m => !m)
       })
   }, [])

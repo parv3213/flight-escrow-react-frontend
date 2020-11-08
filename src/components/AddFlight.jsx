@@ -17,16 +17,28 @@ export default function AddFlight(props) {
     const [searchCity, setSearchCity] = useState("");
     const [searchResults, setSearchResult] = useState(new Array(0));
 
-    const searchAirport = async() => {
+    const searchAirport = () => {
         const searchResults = indianAirport
         .filter(city => city.city_name.slice(0,searchCity.length).toLowerCase() === searchCity.toLowerCase())
         .map((city) => city.city_name);
         setSearchResult(searchResults)
     }
 
+    const validCity = () => {
+        const departureCitySearch = indianAirport
+        .filter((city) => city.city_name.toLowerCase() === departure.toLowerCase())
+        const arrivalCitySearch = indianAirport
+        .filter((city) => city.city_name.toLowerCase() === arrival.toLowerCase())
+        if (departureCitySearch.length !== 1 || arrivalCitySearch.length !== 1){
+            console.log("There is error");
+            throw new Error("Invalid Departure or Arrival");
+        }
+    }
+
     const addNewFlight = async (e) => {
         try{
             e.preventDefault();
+            validCity();
             const departureTimestamp = parseInt(new Date(departureTime).getTime()/1000)
             const departureKeccak = props.web3.utils.keccak256(departure);
             const arrivalKeccak = props.web3.utils.keccak256(arrival);
@@ -41,7 +53,6 @@ export default function AddFlight(props) {
         }catch(e){
             alert(`Some error!\n${e.message}`)
         }
-        
     }
 
     useEffect(() => {
