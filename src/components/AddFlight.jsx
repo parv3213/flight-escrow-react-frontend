@@ -16,18 +16,23 @@ export default function AddFlight(props) {
     const [departureTime, setDepartureTime] = useState("");
 
     const addNewFlight = async (e) => {
-        e.preventDefault();
-        const departureTimestamp = parseInt(new Date(departureTime).getTime()/1000)
-        const departureKeccak = props.web3.utils.keccak256(departure);
-        const arrivalKeccak = props.web3.utils.keccak256(arrival);
-        const weiBaseFare = props.web3.utils.toWei(baseFare, "ether")
-        await factoryContract.methods
-        .addFlight(departureTimestamp,departureKeccak,arrivalKeccak, weiBaseFare, passengerLimit)
-        .send({from: props.account, value: weiBaseFare/2})
-        .on("transactionHash", (hash) => {
-            console.log(`Transaction Hash: ${hash}`);
-            props.setRefresh(m => !props.refresh)
-        })
+        try{
+            e.preventDefault();
+            const departureTimestamp = parseInt(new Date(departureTime).getTime()/1000)
+            const departureKeccak = props.web3.utils.keccak256(departure);
+            const arrivalKeccak = props.web3.utils.keccak256(arrival);
+            const weiBaseFare = props.web3.utils.toWei(baseFare, "ether")
+            await factoryContract.methods
+            .addFlight(departureTimestamp,departureKeccak,arrivalKeccak, weiBaseFare, passengerLimit)
+            .send({from: props.account, value: weiBaseFare/2})
+            .on("transactionHash", (hash) => {
+                console.log(`Transaction Hash: ${hash}`);
+                props.setRefresh(m => !props.refresh)
+            }).on("error", console.error)
+        }catch(e){
+            alert(`Some error!\n${e.message}`)
+        }
+        
     }
 
     useEffect(() => {
