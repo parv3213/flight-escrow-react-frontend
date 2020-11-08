@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "./Header.jsx";
 import AddFlight from "./AddFlight.jsx";
+import AvailableFlight from "./AvailableFLight.jsx";
 import Web3 from "web3";
 
 const { REACT_APP_NETWORK_ID } = process.env;
@@ -74,6 +75,9 @@ export default function App() {
           account={account}
           refresh={refresh}
           setRefresh={setRefresh}
+        />
+        <AvailableFlight 
+          web3={web3}
         />
       </div>
     </div>
