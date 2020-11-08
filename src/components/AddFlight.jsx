@@ -7,7 +7,6 @@ const useStyles = makeStyles((theme) => ({ container: { display: 'flex', flexWra
 
 export default function AddFlight(props) {
     const classes = useStyles();
-    
     const [factoryContract, setFactoryContract] = useState(undefined);
     const [escrowAddress, setEscrowAddress] = useState("");
     const [departure, setDeparture] = useState("");
