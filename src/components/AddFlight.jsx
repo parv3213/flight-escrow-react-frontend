@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import indianAirport from "../public/indianAirport.json"
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
@@ -6,7 +7,7 @@ const useStyles = makeStyles((theme) => ({ container: { display: 'flex', flexWra
 
 export default function AddFlight(props) {
     const classes = useStyles();
-
+    
     const [factoryContract, setFactoryContract] = useState(undefined);
     const [escrowAddress, setEscrowAddress] = useState("");
     const [departure, setDeparture] = useState("");
@@ -14,6 +15,15 @@ export default function AddFlight(props) {
     const [baseFare, setBaseFare] = useState(Number);
     const [passengerLimit, setPassengerLimit] = useState(Number);
     const [departureTime, setDepartureTime] = useState("");
+    const [searchCity, setSearchCity] = useState("");
+    const [searchResults, setSearchResult] = useState(new Array(0));
+
+    const searchAirport = async() => {
+        const searchResults = indianAirport
+        .filter(city => city.city_name.slice(0,searchCity.length).toLowerCase() === searchCity.toLowerCase())
+        .map((city) => city.city_name);
+        setSearchResult(searchResults)
+    }
 
     const addNewFlight = async (e) => {
         try{
@@ -55,11 +65,21 @@ export default function AddFlight(props) {
                 <div className="form-inline">
                     <div className="input-group mb-3 mr-3">
                         <div className="input-group-prepend"> <span className="input-group-text">Departure</span> </div>
-                        <input type="text" value={departure} onChange={(e) => setDeparture(e.target.value)} required />
+                        <input type="text" list="destination" value={departure} onChange={(e) => {setDeparture(e.target.value); setSearchCity(e.target.value); searchAirport()}} required />
+                        <datalist id="destination">
+                            {searchResults.map((searchResult, index) => {
+                                return (<option key={index} value={searchResult}/>)
+                            })}
+                        </datalist>
                     </div>
                     <div className="input-group mb-3 mr-3">
                         <div className="input-group-prepend"> <span className="input-group-text">Arrival</span> </div>
-                        <input type="text" value={arrival} onChange={(e) => setArrival(e.target.value)} required />
+                        <input type="text" list="arrival" value={arrival} onChange={(e) => {setArrival(e.target.value); setSearchCity(e.target.value); searchAirport()}} required />
+                        <datalist id="arrival">
+                            {searchResults.map((searchResult, index) => {
+                                return (<option key={index} value={searchResult}/>)
+                            })}
+                        </datalist>
                     </div>
                     <div className="input-group mb-3 mr-3">
                         <div className="input-group-prepend"> <span className="input-group-text">Base Fare</span> </div>
