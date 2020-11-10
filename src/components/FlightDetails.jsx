@@ -33,13 +33,17 @@ export default function FlightDetails(props) {
             }
         }
         FLightDetailsInit();
-    }, [props.web3,props.flight])
+    }, [props.web3, props.flight])
 
-    return (
-        <div className="d-inline">
-            <span className = "ml-3">Date: {date}</span>
-            <span className = "ml-3">Departure: {departure}</span>
-            <span className = "ml-3">Arrival: {arrival}</span>
-        </div>
-    )
+    if (date !== undefined && departure !== undefined && arrival !== undefined) {
+        return (
+            <div className="d-inline">
+                <span className="ml-3">Departure Date: {date}</span>
+                <span className="ml-3">Departure: {departure}</span>
+                <span className="ml-3">Arrival: {arrival}</span>
+            </div>
+        )
+    } else {
+        return (null)
+    }
 }
