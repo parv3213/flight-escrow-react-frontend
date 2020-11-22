@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import logo from "../public/plane.png";
 
@@ -38,12 +38,10 @@ export default function Header(props) {
                 </div>
 
                 <div className="ml-auto">
-                    <span className="mx-1" className="network-name">
-                        {networkName}
-                    </span>
+                    <span className="mx-1 network-name">{networkName}</span>
                     <div className="user-account-details d-inline ml-1">
                         <span className="mx-1">{props.accountBalance} ETH</span>
-                        <span onClick={handleShow} className="ml-1" className="user-account-address">
+                        <span onClick={handleShow} className="ml-1 user-account-address">
                             {props.account.slice(0, 6) + "..." + props.account.slice(-4)}
                         </span>
                     </div>
