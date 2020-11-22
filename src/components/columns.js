@@ -2,6 +2,7 @@ export const COLUMNS = [
     {
         Header: "Id",
         accessor: "id",
+        disableFilters: true,
     },
     {
         Header: "Departure",
@@ -14,9 +15,11 @@ export const COLUMNS = [
     {
         Header: "Date",
         accessor: "date",
+        Cell: ({ value }) => new Date(value).toLocaleString(),
     },
     {
-        Header: "Base Fair",
+        Header: "Base Fair (ETH)",
         accessor: "baseFare",
+        Cell: ({ value }) => parseInt(value) / 1e18,
     },
 ];

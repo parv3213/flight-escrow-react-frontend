@@ -34,7 +34,7 @@ const getPastFlightsDetails = async (web3, allFlights) => {
             const index = i;
             const flightContract = new web3.eth.Contract(JSON.parse(process.env.REACT_APP_FLIGHT_ABI), flight);
             let date = parseInt(await flightContract.methods.timestamp().call()) * 1000;
-            date = new Date(date).toLocaleString();
+            date = new Date(date).toISOString();
             let departure = await flightContract.methods.departure().call();
             departure = findCity(departure);
             let arrival = await flightContract.methods.arrival().call();
