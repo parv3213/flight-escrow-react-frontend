@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Spinner from "react-bootstrap/Spinner";
 import Header from "./Header.jsx";
 import AddFlight from "./AddFlight.jsx";
 import AvailableFlight from "./AvailableFlight.jsx";
@@ -14,6 +15,7 @@ export default function App() {
     const [networkId, setNetworkId] = useState(0);
     const [metamaskChange, setMetaMaskChange] = useState(true);
     const [refresh, setRefresh] = useState(true);
+    const [loading, setLoading] = useState(true);
 
     // ! make a separate file
     const getWeb3 = () => {
@@ -49,7 +51,9 @@ export default function App() {
             setNetworkId(networkId);
             setAccountBalance(accountBalance);
         };
+        setLoading(true);
         init();
+        setLoading(false);
     }, [metamaskChange, refresh]);
 
     useEffect(() => {
@@ -67,6 +71,7 @@ export default function App() {
         <Router>
             <Header networkId={networkId} account={account} accountBalance={accountBalance} />
             <div className="container">
+                {loading === true ? <Spinner className="text-align-center" animation="border" role="status" /> : null}
                 <Switch>
                     <Route path="/add">
                         <AddFlight web3={web3} account={account} refresh={refresh} setRefresh={setRefresh} />
