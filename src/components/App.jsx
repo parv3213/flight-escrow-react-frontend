@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
+import Landing from "./Landing.jsx";
 import Header from "./Header.jsx";
 import AddFlight from "./AddFlight.jsx";
 import AvailableFlight from "./AvailableFlight.jsx";
@@ -78,6 +79,9 @@ export default function App() {
                     </Route>
                     <Route path="/flights">
                         <AvailableFlight web3={web3} />
+                    </Route>
+                    <Route path="/">
+                        <Landing />
                     </Route>
                 </Switch>
             </div>
