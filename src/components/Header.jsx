@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
-import logo from "../public/plane.png";
 
 export default function Header(props) {
     const [networkName, setNetworkName] = useState("Undefined Network");
@@ -25,7 +24,7 @@ export default function Header(props) {
         <div id="header">
             <nav className="navbar navbar-expand-lg my-3">
                 <div className="mr-auto">
-                    <img src={logo} alt="Airplane" style={{ width: "25px", heigh: "25px" }} />
+                    <img src="./plane.png" alt="Airplane" style={{ width: "25px", heigh: "25px" }} />
                     <Link to="/" className="heading-font navbar-brand ml-2">
                         Flight Escrow
                     </Link>
