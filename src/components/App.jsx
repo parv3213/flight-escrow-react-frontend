@@ -5,6 +5,7 @@ import Landing from "./Landing.jsx";
 import Header from "./Header.jsx";
 import AddFlight from "./AddFlight.jsx";
 import AvailableFlight from "./AvailableFlight.jsx";
+import BookTicket from "./BookTicket.jsx";
 import Web3 from "web3";
 
 const { REACT_APP_NETWORK_ID } = process.env;
@@ -79,6 +80,9 @@ export default function App() {
                     </Route>
                     <Route path="/flights">
                         <AvailableFlight web3={web3} />
+                    </Route>
+                    <Route path="/bookTicket">
+                        <BookTicket />
                     </Route>
                     <Route path="/">
                         <Landing />
