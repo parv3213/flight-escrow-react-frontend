@@ -22,4 +22,9 @@ export const COLUMNS = [
         accessor: "baseFare",
         Cell: ({ value }) => parseInt(value) / 1e18,
     },
+    {
+        Header: "Book Now",
+        accessor: "flight",
+        disableFilters: true,
+    }
 ];

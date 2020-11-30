@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import Fade from "react-bootstrap/Fade";
+import { Link } from "react-router-dom";
 import { useTable, useSortBy, useFilters } from "react-table";
 import ColumnFilter from "./ColumnFilter.jsx";
 
@@ -10,13 +10,11 @@ export default function BasicTable(props) {
         };
     }, []);
 
-    let { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, state, setGlobalFilter } = useTable(
+    let { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = useTable(
         { columns: props.columns, data: props.data, defaultColumn },
         useFilters,
         useSortBy
     );
-
-    const { globalFilter } = state;
 
     return (
         <table {...getTableProps()} style={{ border: "solid 1px blue" }}>
@@ -56,7 +54,13 @@ export default function BasicTable(props) {
                                             background: "papayawhip",
                                         }}
                                     >
-                                        {cell.render("Cell")}
+                                        {cell.column.id !== "flight" ? (
+                                            cell.render("Cell")
+                                        ) : (
+                                            <button className="btn btn-light">
+                                                <Link to={"/bookTicket/" + cell.value}>Book</Link>
+                                            </button>
+                                        )}
                                     </td>
                                 );
                             })}
