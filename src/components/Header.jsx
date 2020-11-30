@@ -14,8 +14,16 @@ export default function Header(props) {
                 setNetworkName("Kovan");
             } else if (props.networkId === 1) {
                 setNetworkName("Mainnet");
+            } else if (props.networkId === 3) {
+                setNetworkName("Ropsten");
+            } else if (props.networkId === 4) {
+                setNetworkName("Rinkeby");
+            } else if (props.networkId === 5) {
+                setNetworkName("Goerli");
             } else if (props.networkId === 5777) {
                 setNetworkName("Local Test");
+            } else {
+                setNetworkName("Unknown");
             }
         };
         findNetworkName();
@@ -28,10 +36,10 @@ export default function Header(props) {
                     <Link to="/" className="heading-font navbar-brand ml-2">
                         Flight Escrow
                     </Link>
-                    <Link to="/flights" className="mx-4 navbar-links">
+                    <Link to="/flights" className="mx-4 navbar-links no-decoration">
                         Flights
                     </Link>
-                    <Link to="/add" className="mx-4 navbar-links">
+                    <Link to="/add" className="mx-4 navbar-links no-decoration">
                         Add
                     </Link>
                 </div>
