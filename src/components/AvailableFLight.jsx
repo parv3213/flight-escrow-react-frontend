@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
 import { getPastFlightsDetails, getPastFlightAddedEvent } from "./utils";
 import BasicTable from "./BasicTable";
@@ -27,7 +28,7 @@ export default function AvailableFlight(props) {
     }, [props.web3]);
 
     if (tableData.length === 0 && !loading) {
-        return <div>No data available</div>;
+        return (<div id="available-flight"><span>No flights available. Add a <Link to="/add" className="decorated-a">Flight</Link>.</span></div>);
     }
     return (
         <div className="jumbotron py-3 pb-0">
