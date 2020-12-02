@@ -14,6 +14,7 @@ const getPastFlightAddedEvent = async (web3) => {
         return allFlightAddresses;
     } catch (e) {
         console.error(`Error at getPastFlightAddedEvent ${e.message}`);
+        throw e;
     }
 };
 
@@ -32,7 +33,7 @@ const getPastFlightsDetails = async (web3, allFlights) => {
         for (let i = 0; i < allFlights.length; i++) {
             const flight = allFlights[i];
             const index = i;
-            const {departure, arrival, date, baseFare, passengerLimit, passengerCount, flightOwner} = await getPastFlightDetails(web3, flight);
+            const { departure, arrival, date, baseFare, passengerLimit, passengerCount, flightOwner } = await getPastFlightDetails(web3, flight);
             await pastFlightsDetails.push({
                 id: String(index),
                 flight,
@@ -48,22 +49,44 @@ const getPastFlightsDetails = async (web3, allFlights) => {
         return pastFlightsDetails;
     } catch (e) {
         console.error(`Error at FlightDetails:`, e.message);
+        throw e;
     }
 };
 
 const getPastFlightDetails = async (web3, flightAddress) => {
-    const flightContract = new web3.eth.Contract(JSON.parse(process.env.REACT_APP_FLIGHT_ABI), flightAddress);
-    let date = parseInt(await flightContract.methods.timestamp().call()) * 1000;
-    date = new Date(date).toISOString();
-    let departure = await flightContract.methods.departure().call();
-    departure = findCity(departure);
-    let arrival = await flightContract.methods.arrival().call();
-    arrival = findCity(arrival);
-    const baseFare = String(await flightContract.methods.baseFare().call());
-    const passengerLimit = String(await flightContract.methods.passengerLimit().call());
-    const passengerCount = String(await flightContract.methods.passengerCount().call());
-    const flightOwner = await flightContract.methods.flightOwner().call();
-    return ({departure, arrival, date, baseFare, passengerLimit, passengerCount, flightOwner})
-}
+    try {
+        const flightContract = new web3.eth.Contract(JSON.parse(process.env.REACT_APP_FLIGHT_ABI), flightAddress);
+        let date = parseInt(await flightContract.methods.timestamp().call()) * 1000;
+        date = new Date(date).toISOString();
+        let departure = await flightContract.methods.departure().call();
+        departure = findCity(departure);
+        let arrival = await flightContract.methods.arrival().call();
+        arrival = findCity(arrival);
+        const baseFare = String(await flightContract.methods.baseFare().call());
+        const passengerLimit = String(await flightContract.methods.passengerLimit().call());
+        const passengerCount = String(await flightContract.methods.passengerCount().call());
+        const flightOwner = await flightContract.methods.flightOwner().call();
+        return { departure, arrival, date, baseFare, passengerLimit, passengerCount, flightOwner };
+    } catch (e) {
+        console.error(`Error at FlightDetails:`, e.message);
+        throw e;
 
-export { getPastFlightsDetails, getPastFlightAddedEvent, getPastFlightDetails };
+    }
+};
+
+const bookTicket = async (web3, flightAddress, passengerName, baseFare) => {
+    try {
+        const flightContract = new web3.eth.Contract(JSON.parse(process.env.REACT_APP_FLIGHT_ABI), flightAddress);
+        const account = (await web3.eth.getAccounts())[0];
+        await flightContract.methods
+            .buyTicket(passengerName)
+            .send({from: account, value: baseFare})
+            .on("transactionHash", (transactionHash) => transactionHash)
+            .on("error", (error) => error);
+    } catch (e) {
+        console.error(`Error at bookTicket:`, e.message);
+        throw e;
+    }
+};
+
+export { getPastFlightsDetails, getPastFlightAddedEvent, getPastFlightDetails, bookTicket };

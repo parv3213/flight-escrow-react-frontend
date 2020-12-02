@@ -1,33 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { getPastFlightDetails } from "./utils";
+import React from "react";
 
-export default function ConfirmFlightDetails(props) {
-    const [departure, setDeparture] = useState("");
-    const [arrival, setArrival] = useState("");
-    const [date, setDate] = useState("");
-    const [baseFare, setBaseFare] = useState("");
-    const [seatLeft, setSeatLeft] = useState(0);
-    const [flightAddress, setFlightAddress] = useState("");
-
-    useEffect(() => {
-        const init = async () => {
-            if (props.web3 === undefined) return;
-            const path = window.location.href;
-            const flightAddress = path.split("/")[path.split("/").length - 1];
-            const { departure, arrival, date, baseFare, passengerLimit, passengerCount } = await getPastFlightDetails(props.web3, flightAddress);
-            setDeparture(departure);
-            setArrival(arrival);
-            setDate(date);
-            setBaseFare(baseFare);
-            setSeatLeft(parseInt(passengerLimit) - parseInt(passengerCount));
-            setFlightAddress(flightAddress);
-        };
-        init();
-    }, [props.web3]);
-
+export default function ConfirmDetails({flightAddress, departure, arrival, baseFare, date, seatLeft, setFlightConfirmed}) {
     return (
-        <div className="jumbotron py-3 pb-0">
-            <h3 className="mb-3">Book Tickets</h3>
+        <div>
             <div className="form-inline">
                 <div className="d-block w-100">
                     <div className="input-group mb-3 mr-3">
@@ -72,7 +47,9 @@ export default function ConfirmFlightDetails(props) {
                     <input type="number" value={seatLeft} readOnly />
                 </div>
             </div>
-            <button className="btn btn-warning w-100 mt-5">Confirm Flight Details</button>
+            <button className="btn btn-warning w-100 mt-5" onClick={e => setFlightConfirmed(true)}>
+                Confirm Flight Details
+            </button>
         </div>
     );
 }
