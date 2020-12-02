@@ -32,7 +32,7 @@ export default function AvailableFlight(props) {
     }
     return (
         <div className="jumbotron py-3 pb-0">
-            <h3>Available Flight</h3>
+            <h3 className="mb-3" >Available Flight</h3>
             <BasicTable data={tableData} columns={columns} />
             {loading && <Spinner className="text-align-center" animation="border" role="status" />}
         </div>

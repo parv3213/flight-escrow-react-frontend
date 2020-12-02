@@ -32,17 +32,7 @@ const getPastFlightsDetails = async (web3, allFlights) => {
         for (let i = 0; i < allFlights.length; i++) {
             const flight = allFlights[i];
             const index = i;
-            const flightContract = new web3.eth.Contract(JSON.parse(process.env.REACT_APP_FLIGHT_ABI), flight);
-            let date = parseInt(await flightContract.methods.timestamp().call()) * 1000;
-            date = new Date(date).toISOString();
-            let departure = await flightContract.methods.departure().call();
-            departure = findCity(departure);
-            let arrival = await flightContract.methods.arrival().call();
-            arrival = findCity(arrival);
-            const baseFare = String(await flightContract.methods.baseFare().call());
-            const passengerLimit = String(await flightContract.methods.passengerLimit().call());
-            const passengerCount = String(await flightContract.methods.passengerCount().call());
-            const flightOwner = await flightContract.methods.flightOwner().call();
+            const {departure, arrival, date, baseFare, passengerLimit, passengerCount, flightOwner} = await getPastFlightDetails(web3, flight);
             await pastFlightsDetails.push({
                 id: String(index),
                 flight,
@@ -61,4 +51,19 @@ const getPastFlightsDetails = async (web3, allFlights) => {
     }
 };
 
-export { getPastFlightsDetails, getPastFlightAddedEvent };
+const getPastFlightDetails = async (web3, flightAddress) => {
+    const flightContract = new web3.eth.Contract(JSON.parse(process.env.REACT_APP_FLIGHT_ABI), flightAddress);
+    let date = parseInt(await flightContract.methods.timestamp().call()) * 1000;
+    date = new Date(date).toISOString();
+    let departure = await flightContract.methods.departure().call();
+    departure = findCity(departure);
+    let arrival = await flightContract.methods.arrival().call();
+    arrival = findCity(arrival);
+    const baseFare = String(await flightContract.methods.baseFare().call());
+    const passengerLimit = String(await flightContract.methods.passengerLimit().call());
+    const passengerCount = String(await flightContract.methods.passengerCount().call());
+    const flightOwner = await flightContract.methods.flightOwner().call();
+    return ({departure, arrival, date, baseFare, passengerLimit, passengerCount, flightOwner})
+}
+
+export { getPastFlightsDetails, getPastFlightAddedEvent, getPastFlightDetails };
