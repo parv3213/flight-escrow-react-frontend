@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
 import { getPastFlightsDetails, getPastFlightAddedEvent } from "./utils";
-import BasicTable from "./BasicTable";
+import AvailableFlightTable from "./AvailableFlightTable";
 import { COLUMNS } from "./columns";
 
 export default function AvailableFlight(props) {
@@ -33,7 +33,7 @@ export default function AvailableFlight(props) {
     return (
         <div className="jumbotron py-3 pb-0">
             <h3 className="mb-3" >Available Flight</h3>
-            <BasicTable data={tableData} columns={columns} />
+            <AvailableFlightTable data={tableData} columns={columns} />
             {loading && <Spinner className="text-align-center" animation="border" role="status" />}
         </div>
     );
