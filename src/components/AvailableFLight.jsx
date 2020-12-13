@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
 import { getPastFlightsDetails, getPastFlightAddedEvent } from "./utils";
 import AvailableFlightTable from "./AvailableFlightTable";
-import { COLUMNS } from "./columns";
+import { COLUMNS } from "./availableFlightColumns";
 
 export default function AvailableFlight(props) {
     const [tableData, setTableData] = useState([]);

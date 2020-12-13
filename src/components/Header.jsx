@@ -42,6 +42,9 @@ export default function Header(props) {
                     <Link to="/add" className="mx-4 navbar-links no-decoration">
                         Add
                     </Link>
+                    <Link to="/flightOwner" className="mx-4 navbar-links no-decoration">
+                        Flight Owner
+                    </Link>
                 </div>
 
                 <div className="ml-auto">
