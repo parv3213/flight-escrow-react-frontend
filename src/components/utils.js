@@ -79,7 +79,8 @@ const flightPassengerDetails = async (web3, passengerAddress) => {
     const passengerFutureFlights = [];
     const passengerPastFlights = [];
     const pastFlightAddress = await getPastFlightAddedEvent(web3);
-
+    let futureFlightNo = 0
+    let pastFlightNo = 0;
     for (let i = 0; i < pastFlightAddress.length; i++) {
       const { flight, departure, arrival, date, baseFare, status } = await getPassengerFlightDetails(
         web3,
@@ -90,10 +91,11 @@ const flightPassengerDetails = async (web3, passengerAddress) => {
       if (new Date().getTime() >= new Date(date).getTime()){
         let statusString;
         let delayWithdraw;
-        if(status / 1 === 0){
+        console.log(status)
+        if(status === "No Dispute"){
           statusString = "No Dispute"
           delayWithdraw = "No"
-        } else if(status / 1 === 1){
+        } else if(status === "inDispute"){
           statusString = "In Dispute"
           delayWithdraw = "No"
         } else{
@@ -104,9 +106,11 @@ const flightPassengerDetails = async (web3, passengerAddress) => {
           const passengerWithdrawalFilter = withdrawalEvents.filter(event => event.returnValues.withdrawer === passengerAddress)
           passengerWithdrawalFilter.length === 0 ? delayWithdraw = "Yes" : delayWithdraw="No"
         }
-        passengerPastFlights.push({id: i+1,flight, baseFare, statusString,delayWithdraw})
+        futureFlightNo++
+        passengerPastFlights.push({id: futureFlightNo,flight, baseFare, statusString,delayWithdraw})
       } else{
-        passengerFutureFlights.push({id: i+1,flight, departure, arrival, date, baseFare});
+        pastFlightNo++
+        passengerFutureFlights.push({id: pastFlightNo,flight, departure, arrival, date, baseFare});
       }
     }
     return {passengerPastFlights, passengerFutureFlights};

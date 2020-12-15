@@ -30,7 +30,7 @@ export default function FlightPassenger({ web3, account }) {
   const futureFlightColumns = useMemo(() => futureFlight, []);
   const pastFlightColumns = useMemo(() => pastFlight, []);
 
-  if ((futureTableData.length !== 0 && pastTableData.length !== 0) && !loading) {
+  if ((futureTableData.length + pastTableData.length === 0) && !loading) {
     return (
       <div id="available-flight">
         <span>
@@ -46,9 +46,11 @@ export default function FlightPassenger({ web3, account }) {
   return (
     <div className="jumbotron py-3 pb-0">
       <h3 className="mb-3">Flights You Own</h3>
+      <h5 className="my-2">Future Flights</h5>
       <FlightPassengerFutureTable data={futureTableData} columns={futureFlightColumns} />
       {loading && <Spinner className="text-align-center" animation="border" role="status" />}
       <hr className="my-3"/>
+      <h5 className="my-2">Past Flights</h5>
       <FlightPassengerPastTable data={pastTableData} columns={pastFlightColumns} />
       {loading && <Spinner className="text-align-center" animation="border" role="status" />}
     </div>
