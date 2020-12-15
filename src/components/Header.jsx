@@ -45,6 +45,9 @@ export default function Header(props) {
                     <Link to="/flightOwner" className="mx-4 navbar-links no-decoration">
                         Flight Owner
                     </Link>
+                    <Link to="/flightPassenger" className="mx-4 navbar-links no-decoration">
+                        Flight Passenger
+                    </Link>
                 </div>
 
                 <div className="ml-auto">

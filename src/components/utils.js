@@ -74,9 +74,85 @@ const flightOwnerDetails = async (web3, ownerAddress) => {
   }
 };
 
+const flightPassengerDetails = async (web3, passengerAddress) => {
+  try {
+    const passengerFutureFlights = [];
+    const passengerPastFlights = [];
+    const pastFlightAddress = await getPastFlightAddedEvent(web3);
+
+    for (let i = 0; i < pastFlightAddress.length; i++) {
+      const { flight, departure, arrival, date, baseFare, status } = await getPassengerFlightDetails(
+        web3,
+        pastFlightAddress[i],
+        passengerAddress
+      );
+      if (flight === undefined) continue
+      if (new Date().getTime() >= new Date(date).getTime()){
+        let statusString;
+        let delayWithdraw;
+        if(status / 1 === 0){
+          statusString = "No Dispute"
+          delayWithdraw = "No"
+        } else if(status / 1 === 1){
+          statusString = "In Dispute"
+          delayWithdraw = "No"
+        } else{
+          const ffInstance = new web3.eth.Contract(JSON.parse(process.env.REACT_APP_FLIGHT_ABI), flight);
+          const shouldRefund = await ffInstance.methods.shouldRefund().call();
+          shouldRefund === true || shouldRefund === 1 ? statusString = "Dispute accepted" : statusString = "Dispute rejected"
+          const withdrawalEvents = await ffInstance.getPastEvents("Withdrawal",{ fromBlock: 0, toBlock: "latest" })
+          const passengerWithdrawalFilter = withdrawalEvents.filter(event => event.returnValues.withdrawer === passengerAddress)
+          passengerWithdrawalFilter.length === 0 ? delayWithdraw = "Yes" : delayWithdraw="No"
+        }
+        passengerPastFlights.push({id: i+1,flight, baseFare, statusString,delayWithdraw})
+      } else{
+        passengerFutureFlights.push({id: i+1,flight, departure, arrival, date, baseFare});
+      }
+    }
+    return {passengerPastFlights, passengerFutureFlights};
+  } catch (e) {
+    console.error(`Error at flightPassengerDetails:`, e.message);
+    throw e;
+  }
+}
+
 const getPastFlightDetails = async (web3, flightAddress) => {
   try {
     const flightContract = new web3.eth.Contract(JSON.parse(process.env.REACT_APP_FLIGHT_ABI), flightAddress);
+    let date = parseInt(await flightContract.methods.timestamp().call()) * 1000;
+    date = new Date(date).toISOString();
+    let departure = await flightContract.methods.departure().call();
+    departure = findCity(departure);
+    let arrival = await flightContract.methods.arrival().call();
+    arrival = findCity(arrival);
+    const baseFare = String(await flightContract.methods.baseFare().call());
+    const passengerLimit = String(await flightContract.methods.passengerLimit().call());
+    const passengerCount = String(await flightContract.methods.passengerCount().call());
+    const flightOwner = await flightContract.methods.flightOwner().call();
+    let status = (await flightContract.methods.status().call()) / 1;
+    status = status === 0 ? "No Dispute" : status === 1 ? "In Dispute" : "Settled";
+    return {
+      flight: flightAddress,
+      departure,
+      arrival,
+      date,
+      baseFare,
+      passengerLimit,
+      passengerCount,
+      flightOwner,
+      status,
+    };
+  } catch (e) {
+    console.error(`Error at FlightDetails:`, e.message);
+    throw e;
+  }
+};
+const getPassengerFlightDetails = async (web3, flightAddress, passengerAddress) => {
+  try {
+    const flightContract = new web3.eth.Contract(JSON.parse(process.env.REACT_APP_FLIGHT_ABI), flightAddress);
+    if ((await flightContract.methods.passengerDetails(passengerAddress).call())[1] === "" ){
+      return {}
+    }
     let date = parseInt(await flightContract.methods.timestamp().call()) * 1000;
     date = new Date(date).toISOString();
     let departure = await flightContract.methods.departure().call();
@@ -144,4 +220,5 @@ export {
   bookTicket,
   flightOwnerDetails,
   withdrawMoney,
+  flightPassengerDetails
 };
