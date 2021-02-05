@@ -122,7 +122,7 @@ const flightPassengerDetails = async (web3, passengerAddress) => {
 
 const getPastFlightDetails = async (web3, flightAddress) => {
   try {
-    const flightContract = new web3.eth.Contract(JSON.parse(process.env.REACT_APP_FLIGHT_ABI), flightAddress);
+    const flightContract = await getFlightContract(web3, flightAddress);
     let date = parseInt(await flightContract.methods.timestamp().call()) * 1000;
     date = new Date(date).toISOString();
     let departure = await flightContract.methods.departure().call();
@@ -153,7 +153,7 @@ const getPastFlightDetails = async (web3, flightAddress) => {
 };
 const getPassengerFlightDetails = async (web3, flightAddress, passengerAddress) => {
   try {
-    const flightContract = new web3.eth.Contract(JSON.parse(process.env.REACT_APP_FLIGHT_ABI), flightAddress);
+    const flightContract = await getFlightContract(web3, flightAddress);
     if ((await flightContract.methods.passengerDetails(passengerAddress).call())[1] === "" ){
       return {}
     }
@@ -188,7 +188,7 @@ const getPassengerFlightDetails = async (web3, flightAddress, passengerAddress) 
 
 const bookTicket = async (web3, flightAddress, passengerName, baseFare) => {
   try {
-    const flightContract = new web3.eth.Contract(JSON.parse(process.env.REACT_APP_FLIGHT_ABI), flightAddress);
+    const flightContract = await getFlightContract(web3, flightAddress);
     const account = (await web3.eth.getAccounts())[0];
     await flightContract.methods
       .buyTicket(passengerName)
@@ -203,7 +203,7 @@ const bookTicket = async (web3, flightAddress, passengerName, baseFare) => {
 
 const withdrawMoney = async (web3, flightAddress) => {
   try {
-    const flightContract = new web3.eth.Contract(JSON.parse(process.env.REACT_APP_FLIGHT_ABI), flightAddress);
+    const flightContract = await getFlightContract(web3, flightAddress);
     const account = (await web3.eth.getAccounts())[0];
     await flightContract.methods
       .withdrawMoney()
@@ -216,7 +216,32 @@ const withdrawMoney = async (web3, flightAddress) => {
   }
 };
 
-// flightOwnerDetails();
+const raiseDispute = async(web3, flightAddress) => {
+  try {
+    const flightContract = new web3.eth.Contract(JSON.parse(process.env.REACT_APP_FLIGHT_ABI), flightAddress);
+    const account = (await web3.eth.getAccounts())[0];
+    await flightContract.methods
+      .flightDelayRaise()
+      .send({ from: account })
+      .on("transactionHash", (transactionHash) => transactionHash)
+      .on("error", (error) => error);
+  } catch (e) {
+    console.error(`Error at raiseDispute:`, e.message);
+    throw e;
+  }
+}
+
+const getFlightContract = async(web3, flightAddress) => {
+  try{
+    const flightContract = new web3.eth.Contract(JSON.parse(process.env.REACT_APP_FLIGHT_ABI), flightAddress);
+    return flightContract;
+  }
+  catch(e){
+    console.error(`Error at getFlightContract:`, e.message);
+    throw e;
+  }
+}
+
 export {
   getPastFlightsDetails,
   getPastFlightAddedEvent,
@@ -224,5 +249,6 @@ export {
   bookTicket,
   flightOwnerDetails,
   withdrawMoney,
-  flightPassengerDetails
+  flightPassengerDetails,
+  raiseDispute
 };

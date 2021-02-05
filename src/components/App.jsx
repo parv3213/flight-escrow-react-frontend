@@ -8,6 +8,7 @@ import AvailableFlight from "./AvailableFlight.jsx";
 import ConfirmAndBook from "./ConfirmAndBook.jsx";
 import FlightOwner from "./FlightOwner.jsx";
 import FlightPassenger from "./FlightPassenger.jsx";
+import FlightDispute from "./FlightDispute.jsx";
 import Web3 from "web3";
 
 const { REACT_APP_NETWORK_ID } = process.env;
@@ -91,6 +92,9 @@ export default function App() {
           </Route>
           <Route path="/flightPassenger">
             <FlightPassenger web3={web3} account={account} />
+          </Route>
+          <Route path="/FlightDispute">
+            <FlightDispute web3={web3} account={account} />
           </Route>
           <Route path="/">
             <Landing />
