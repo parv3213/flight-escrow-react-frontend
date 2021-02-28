@@ -1,8 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./public/App.sass";
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.js';
+import $ from 'jquery';
+import Popper from 'popper.js';
 import App from "./components/App.jsx";
-import "bootstrap/dist/css/bootstrap.min.css";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(<App />, document.getElementById("root"));
