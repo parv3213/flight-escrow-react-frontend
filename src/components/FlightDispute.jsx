@@ -7,7 +7,7 @@ export default function FlightDispute({ web3 }) {
 	const [disputeFlightAddress, setDisputeFlightAddress] = useState(undefined);
 
 	const raiseDisputeUI = async () => {
-		if (disputeFlightAddress != undefined) {
+		if (disputeFlightAddress !== undefined) {
 			try {
 				await raiseDispute(web3, disputeFlightAddress);
 			} catch (e) {

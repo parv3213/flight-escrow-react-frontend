@@ -2,67 +2,67 @@ import React from "react";
 
 export default function Footer(props) {
 	return (
-		<footer class="text-center text-back" style={{ "background-color": "#f1f1f1" }}>
-			<div class="container pt-4">
-				<section class="mb-4">
+		<footer className="text-center text-back" style={{ "backgroundColor": "#f1f1f1" }}>
+			<div className="container pt-4">
+				<section className="mb-4">
 					<a
-						class="btn btn-link btn-floating btn-lg text-dark m-1"
+						className="btn btn-link btn-floating btn-lg text-dark m-1"
 						href="#!"
 						role="button"
 						data-mdb-ripple-color="dark"
 					>
-						<i class="fab fa-facebook-f"></i>
+						<i className="fab fa-facebook-f"></i>
 					</a>
 
 					<a
-						class="btn btn-link btn-floating btn-lg text-dark m-1"
+						className="btn btn-link btn-floating btn-lg text-dark m-1"
 						href="#!"
 						role="button"
 						data-mdb-ripple-color="dark"
 					>
-						<i class="fab fa-twitter"></i>
+						<i className="fab fa-twitter"></i>
 					</a>
 
 					<a
-						class="btn btn-link btn-floating btn-lg text-dark m-1"
+						className="btn btn-link btn-floating btn-lg text-dark m-1"
 						href="#!"
 						role="button"
 						data-mdb-ripple-color="dark"
 					>
-						<i class="fab fa-google"></i>
+						<i className="fab fa-google"></i>
 					</a>
 
 					<a
-						class="btn btn-link btn-floating btn-lg text-dark m-1"
+						className="btn btn-link btn-floating btn-lg text-dark m-1"
 						href="#!"
 						role="button"
 						data-mdb-ripple-color="dark"
 					>
-						<i class="fab fa-instagram"></i>
+						<i className="fab fa-instagram"></i>
 					</a>
 
 					<a
-						class="btn btn-link btn-floating btn-lg text-dark m-1"
+						className="btn btn-link btn-floating btn-lg text-dark m-1"
 						href="#!"
 						role="button"
 						data-mdb-ripple-color="dark"
 					>
-						<i class="fab fa-linkedin"></i>
+						<i className="fab fa-linkedin"></i>
 					</a>
 					<a
-						class="btn btn-link btn-floating btn-lg text-dark m-1"
+						className="btn btn-link btn-floating btn-lg text-dark m-1"
 						href="#!"
 						role="button"
 						data-mdb-ripple-color="dark"
 					>
-						<i class="fab fa-github"></i>
+						<i className="fab fa-github"></i>
 					</a>
 				</section>
 			</div>
 
-			<div class="text-center text-dark p-3" style={{ "background-color": "rgba(0, 0, 0, 0.2)" }}>
+			<div className="text-center text-dark p-3" style={{ "backgroundColor": "rgba(0, 0, 0, 0.2)" }}>
 				© 2020 Copyright:
-				<a class="text-dark" href="https://mdbootstrap.com/">
+				<a className="text-dark" href="https://mdbootstrap.com/">
 					MDBootstrap.com
 				</a>
 			</div>

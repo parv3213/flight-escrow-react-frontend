@@ -21,12 +21,12 @@ export default function App() {
 	const [accountBalance, setAccountBalance] = useState("");
 	const [networkId, setNetworkId] = useState(0);
 	const [metamaskChange, setMetaMaskChange] = useState(true);
-	const [wrongNetork, setWrongNetork] = useState(false);
+	const [wrongNetwork, setWrongNetwork] = useState(false);
 	const [refresh, setRefresh] = useState(true);
 	const [loading, setLoading] = useState(true);
 	const handleClose = () => {
 		setMetaMaskChange(!metamaskChange);
-		setWrongNetork(false);
+		setWrongNetwork(false);
 	};
 
 	// ! make a separate file
@@ -35,7 +35,8 @@ export default function App() {
 			if (window.ethereum) {
 				const web3 = new Web3(window.ethereum);
 				try {
-					await window.ethereum.enable();
+					await window.ethereum.send('eth_requestAccounts');
+					// await window.ethereum.enable();
 					resolve(web3);
 				} catch (e) {
 					reject(e);
@@ -55,8 +56,8 @@ export default function App() {
 			const account = (await web3.eth.getAccounts())[0];
 			const networkId = await web3.eth.net.getId();
 			if (networkId !== parseInt(REACT_APP_NETWORK_ID)) {
-				console.log("Not correct", networkId, REACT_APP_NETWORK_ID); //! render something here
-				setWrongNetork(true);
+				console.log("Not correct", networkId, REACT_APP_NETWORK_ID);
+				setWrongNetwork(true);
 			}
 			const accountBalance =
 				Math.floor(parseFloat(web3.utils.fromWei(await web3.eth.getBalance(account))) * 100) / 100;
@@ -109,7 +110,7 @@ export default function App() {
 						<Landing />
 					</Route>
 				</Switch>
-				<Modal show={wrongNetork} onHide={handleClose}>
+				<Modal show={wrongNetwork} onHide={handleClose}>
 					<Modal.Header closeButton>
 						<Modal.Title>Please switch to Kovan</Modal.Title>
 					</Modal.Header>
