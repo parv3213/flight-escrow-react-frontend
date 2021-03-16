@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import planeLogo from "../public/plane.png";
 import { Link } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 
@@ -32,8 +33,8 @@ export default function Header(props) {
 		<div id="header">
 			<nav className="navbar navbar-expand-xl mb-3">
 				<span className="navbar-brand">
-					<img src="./plane.png" alt="Airplane" style={{ width: "25px", heigh: "25px" }} />
-					<Link to="/" className="heading-font ml-2">
+					<img src={planeLogo} alt="Airplane" style={{ width: "25px", heigh: "25px" }} />
+					<Link to="/" className="heading-font ml-2 no-decoration">
 						Flight Escrow
 					</Link>
 				</span>

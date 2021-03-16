@@ -1,10 +1,11 @@
 import React from "react";
+import flightImage from "../public/Flight-background.jpg";
 import { Link } from "react-router-dom";
 
 export default function Landing() {
     return (
         <div className="mx-n5" id="landing">
-            <img src="./Flight-background.jpg" alt="Flight" className="d-block w-100 mh-75 my-0 mx-auto" height="600" />
+            <img src={flightImage} alt="Flight" className="d-block w-100 mh-75 my-0 mx-auto" height="600" />
             <div className="p-text">
                 <p className="font-weight-bold">Fly in peace!</p>
                 <h3>Book tickets</h3>
