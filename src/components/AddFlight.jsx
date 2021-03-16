@@ -75,7 +75,7 @@ export default function AddFlight(props) {
                 <div className="form-inline">
                     <div className="input-group mb-3 mr-3">
                         <div className="input-group-prepend"> <span className="input-group-text">Departure</span> </div>
-                        <input type="text" list="destination" placeholder="Delhi" value={departure} onChange={(e) => {setDeparture(e.target.value); setSearchCity(e.target.value); searchAirport()}} required />
+                        <input type="text" list="destination" placeholder="New Delhi" value={departure} onChange={(e) => {setDeparture(e.target.value); setSearchCity(e.target.value); searchAirport()}} required />
                         <datalist id="destination">
                             {searchResults.map((searchResult, index) => {
                                 return (<option key={index} value={searchResult}/>)
@@ -102,7 +102,7 @@ export default function AddFlight(props) {
                     </div>
                     <div className="input-group mb-3 mr-3 w-100">
                         <div className="input-group-prepend"> <span className="input-group-text">Departure Time</span> </div>
-                        <TextField type="datetime-local" defaultValue="2021-05-24T10:30" onChange={(e) => setDepartureTime(e.target.value)} className={classes.textField} InputLabelProps={{ shrink: true, }} />
+                        <TextField type="datetime-local" onChange={(e) => setDepartureTime(e.target.value)} className={classes.textField} InputLabelProps={{ shrink: true, }} />
                     </div>
                 </div>
                 <div className="input-group mb-3 mr-3">
