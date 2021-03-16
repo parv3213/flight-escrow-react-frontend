@@ -154,7 +154,7 @@ const getPastFlightDetails = async (web3, flightAddress) => {
 const getPassengerFlightDetails = async (web3, flightAddress, passengerAddress) => {
   try {
     const flightContract = await getFlightContract(web3, flightAddress);
-    if ((await flightContract.methods.passengerDetails(passengerAddress).call())[1] === "" ){
+    if ((await flightContract.methods.buyerDetails(passengerAddress).call())[1] === "" ){
       return {}
     }
     let date = parseInt(await flightContract.methods.timestamp().call()) * 1000;
