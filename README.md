@@ -1,4 +1,4 @@
-#Deployed App -> [Here](https://flight-escrow.netlify.app/flights)
+# [Deployed App](https://flight-escrow.netlify.app)
 
 # Getting Started with Create React App
 
